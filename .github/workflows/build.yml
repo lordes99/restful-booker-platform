@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  build-and-push:
+    runs-on:  self-hosted
+    strategy:
+      matrix:
+        service: [auth, booking, report, room, branding, message, assets]  # Elenco dei servizi
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v4
+
+      - name: Login su Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Build dell'immagine per ${{ matrix.service }}
+        run: docker build -t rafdanna28/spme-${{ matrix.service }}:${{ github.sha }} ./${{ matrix.service }}
+
+      - name: Push su Docker Hub
+        run: docker push rafdanna28/spme-${{ matrix.service }}:${{ github.sha }}
