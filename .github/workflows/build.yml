@@ -25,7 +25,7 @@ jobs:
         if: matrix.service == 'assets'
         uses: actions/setup-node@v3
         with:
-          node-version: '22'
+          node-version: '16'
 
       - name: Build frontend con npm (solo per assets)
         if: matrix.service == 'assets'
