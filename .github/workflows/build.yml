@@ -51,3 +51,24 @@ jobs:
 
       - name: Push su Docker Hub
         run: docker push rafdanna28/spme-${{ matrix.service }}:${{ github.sha }}
+  deploy:
+    runs-on: self-hosted
+    needs: build-and-push  # Esegue il deploy solo dopo il build
+    steps:
+      - name: Connetti via SSH e aggiorna Kubernetes
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "📢 Aggiornamento di Kubernetes su MicroK8s..."
+
+            # Effettua il pull delle nuove immagini su MicroK8s
+            for service in auth booking report room branding message assets; do
+              echo "🔄 Aggiorno $service..."
+              microk8s.kubectl set image deployment/spme-$service spme-$service=rafdanna28/spme-$service:${{ github.sha }} --record
+            done
+
+            # Mostra lo stato dei pod per verifica
+            microk8s.kubectl get pods -o wide
