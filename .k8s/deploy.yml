@@ -1,0 +1,447 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: spme-booking
+spec:
+  selector:
+    matchLabels:
+      run: spme-booking
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: spme-booking
+    spec:
+      containers:
+        - name: spme-booking
+          image: rafdanna28/spme-booking@sha256:<HASH>
+          imagePullPolicy: Always
+          env:
+            - name: dbRefresh
+              value: "10"
+            - name: cors
+              value: "*"
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "768Mi"
+              cpu: "500m"
+            limits:
+              memory: "1024Mi"
+              cpu: "1000m"
+          readinessProbe:
+            httpGet:
+              port: 3000
+              path: /booking/actuator/health
+            initialDelaySeconds: 1
+            periodSeconds: 5
+            timeoutSeconds: 4
+            successThreshold: 2
+            failureThreshold: 3
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: spme-room
+spec:
+  selector:
+    matchLabels:
+      run: spme-room
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: spme-room
+    spec:
+      containers:
+        - name: spme-room
+          image: rafdanna28/spme-room@sha256:<HASH>
+          imagePullPolicy: Always
+          env:
+            - name: dbRefresh
+              value: "10"
+            - name: cors
+              value: "*"
+          ports:
+            - containerPort: 3001
+          resources:
+            requests:
+              memory: "768Mi"
+              cpu: "500m"
+            limits:
+              memory: "1024Mi"
+              cpu: "1000m"
+          readinessProbe:
+            httpGet:
+              port: 3001
+              path: /room/actuator/health
+            initialDelaySeconds: 1
+            periodSeconds: 5
+            timeoutSeconds: 4
+            successThreshold: 2
+            failureThreshold: 3
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: spme-branding
+spec:
+  selector:
+    matchLabels:
+      run: spme-branding
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: spme-branding
+    spec:
+      containers:
+        - name: spme-branding
+          image: rafdanna28/spme-branding@sha256:<HASH>
+          imagePullPolicy: Always
+          env:
+            - name: dbRefresh
+              value: "10"
+            - name: cors
+              value: "*"
+          ports:
+            - containerPort: 3002
+          resources:
+            requests:
+              memory: "768Mi"
+              cpu: "500m"
+            limits:
+              memory: "1024Mi"
+              cpu: "1000m"
+          readinessProbe:
+            httpGet:
+              port: 3002
+              path: /branding/actuator/health
+            initialDelaySeconds: 1
+            periodSeconds: 5
+            timeoutSeconds: 4
+            successThreshold: 2
+            failureThreshold: 3
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: spme-assets
+spec:
+  selector:
+    matchLabels:
+      run: spme-assets
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: spme-assets
+    spec:
+      containers:
+        - name: spme-assets
+          image: rafdanna28/spme-assets@sha256:<HASH>
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3003
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              port: 3003
+              path: /actuator/health
+            initialDelaySeconds: 1
+            periodSeconds: 5
+            timeoutSeconds: 4
+            successThreshold: 2
+            failureThreshold: 3
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: spme-auth
+spec:
+  selector:
+    matchLabels:
+      run: spme-auth
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: spme-auth
+    spec:
+      containers:
+        - name: spme-auth
+          image: rafdanna28/spme-auth@sha256:<HASH>
+          imagePullPolicy: Always
+          env:
+            - name: cors
+              value: "*"
+          ports:
+            - containerPort: 3004
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              port: 3004
+              path: /auth/actuator/health
+            initialDelaySeconds: 1
+            periodSeconds: 5
+            timeoutSeconds: 4
+            successThreshold: 2
+            failureThreshold: 3
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: spme-report
+spec:
+  selector:
+    matchLabels:
+      run: spme-report
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: spme-report
+    spec:
+      containers:
+        - name: spme-report
+          image: rafdanna28/spme-report@sha256:<HASH>
+          imagePullPolicy: Always
+          env:
+            - name: cors
+              value: "*"
+          ports:
+            - containerPort: 3005
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              port: 3005
+              path: /report/actuator/health
+            initialDelaySeconds: 1
+            periodSeconds: 5
+            timeoutSeconds: 4
+            successThreshold: 2
+            failureThreshold: 3
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: spme-message
+spec:
+  selector:
+    matchLabels:
+      run: spme-message
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: spme-message
+    spec:
+      containers:
+        - name: spme-message
+          image: rafdanna28/spme-message@sha256:<HASH>
+          imagePullPolicy: Always
+          env:
+            - name: dbRefresh
+              value: "10"
+            - name: cors
+              value: "*"
+          ports:
+            - containerPort: 3006
+          resources:
+            requests:
+              memory: "768Mi"
+              cpu: "500m"
+            limits:
+              memory: "1024Mi"
+              cpu: "1000m"
+          readinessProbe:
+            httpGet:
+              port: 3006
+              path: /message/actuator/health
+            initialDelaySeconds: 1
+            periodSeconds: 5
+            timeoutSeconds: 4
+            successThreshold: 2
+            failureThreshold: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spme-booking
+  labels:
+    app: spme-booking
+spec:
+  type: NodePort
+  ports:
+    - port: 3000
+      protocol: TCP
+      nodePort: 32147
+      targetPort: 3000
+  selector:
+    run: spme-booking
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spme-room
+  labels:
+    app: spme-room
+spec:
+  type: NodePort
+  ports:
+    - port: 3001
+      protocol: TCP
+      nodePort: 32148
+      targetPort: 3001
+  selector:
+    run: spme-room
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spme-branding
+  labels:
+    app: spme-branding
+spec:
+  type: NodePort
+  ports:
+    - port: 3002
+      protocol: TCP
+      nodePort: 32149
+      targetPort: 3002
+  selector:
+    run: spme-branding
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spme-assets
+  labels:
+    app: spme-assets
+spec:
+  type: NodePort
+  ports:
+    - port: 3003
+      protocol: TCP
+      nodePort: 32150
+      targetPort: 3003
+  selector:
+    run: spme-assets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spme-auth
+  labels:
+    app: spme-auth
+spec:
+  type: NodePort
+  ports:
+    - port: 3004
+      protocol: TCP
+      nodePort: 32151
+      targetPort: 3004
+  selector:
+    run: spme-auth
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spme-report
+  labels:
+    app: spme-report
+spec:
+  type: NodePort
+  ports:
+    - port: 3005
+      protocol: TCP
+      nodePort: 32152
+      targetPort: 3005
+  selector:
+    run: spme-report
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spme-message
+  labels:
+    app: spme-message
+spec:
+  type: NodePort
+  ports:
+    - port: 3006
+      protocol: TCP
+      nodePort: 32153
+      targetPort: 3006
+  selector:
+    run: spme-message
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: spme-ingress
+spec:
+  rules:
+    - host: domain.com # Sostituire con il dominio o l'IP del server
+      http:
+        paths:
+          - path: /booking/*
+            backend:
+              serviceName: spme-booking
+              servicePort: 3000
+          - path: /room/*
+            backend:
+              serviceName: spme-room
+              servicePort: 3001
+          - path: /branding/*
+            backend:
+              serviceName: spme-branding
+              servicePort: 3002
+          - path: /auth/*
+            backend:
+              serviceName: spme-auth
+              servicePort: 3004
+          - path: /report/*
+            backend:
+              serviceName: spme-report
+              servicePort: 3005
+          - path: /message/*
+            backend:
+              serviceName: spme-message
+              servicePort: 3006
+          - path: /
+            backend:
+              serviceName: spme-assets
+              servicePort: 3003
+          - path: /js/*
+            backend:
+              serviceName: spme-assets
+              servicePort: 3003
+          - path: /images/*
+            backend:
+              serviceName: spme-assets
+              servicePort: 3003
+          - path: /actuator/*
+            backend:
+              serviceName: spme-assets
+              servicePort: 3003
