@@ -1,5 +1,5 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spme-booking
@@ -41,7 +41,7 @@ spec:
             successThreshold: 2
             failureThreshold: 3
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spme-room
@@ -83,7 +83,7 @@ spec:
             successThreshold: 2
             failureThreshold: 3
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spme-branding
@@ -125,7 +125,7 @@ spec:
             successThreshold: 2
             failureThreshold: 3
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spme-assets
@@ -162,7 +162,7 @@ spec:
             successThreshold: 2
             failureThreshold: 3
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spme-auth
@@ -202,7 +202,7 @@ spec:
             successThreshold: 2
             failureThreshold: 3
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spme-report
@@ -242,7 +242,7 @@ spec:
             successThreshold: 2
             failureThreshold: 3
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spme-message
@@ -396,52 +396,84 @@ spec:
   selector:
     run: spme-message
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: spme-ingress
+  namespace: spme
 spec:
   rules:
-    - host: domain.com # Sostituire con il dominio o l'IP del server
+    - host: 192.168.0.161
       http:
         paths:
-          - path: /booking/*
+          - path: /booking/
+            pathType: Prefix
             backend:
-              serviceName: spme-booking
-              servicePort: 3000
-          - path: /room/*
+              service:
+                name: spme-booking
+                port:
+                  number: 3000
+          - path: /room/
+            pathType: Prefix
             backend:
-              serviceName: spme-room
-              servicePort: 3001
-          - path: /branding/*
+              service:
+                name: spme-room
+                port:
+                  number: 3001
+          - path: /branding/
+            pathType: Prefix
             backend:
-              serviceName: spme-branding
-              servicePort: 3002
-          - path: /auth/*
+              service:
+                name: spme-branding
+                port:
+                  number: 3002
+          - path: /auth/
+            pathType: Prefix
             backend:
-              serviceName: spme-auth
-              servicePort: 3004
-          - path: /report/*
+              service:
+                name: spme-auth
+                port:
+                  number: 3004
+          - path: /report/
+            pathType: Prefix
             backend:
-              serviceName: spme-report
-              servicePort: 3005
-          - path: /message/*
+              service:
+                name: spme-report
+                port:
+                  number: 3005
+          - path: /message/
+            pathType: Prefix
             backend:
-              serviceName: spme-message
-              servicePort: 3006
+              service:
+                name: spme-message
+                port:
+                  number: 3006
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: spme-assets
-              servicePort: 3003
-          - path: /js/*
+              service:
+                name: spme-assets
+                port:
+                  number: 3003
+          - path: /js/
+            pathType: Prefix
             backend:
-              serviceName: spme-assets
-              servicePort: 3003
-          - path: /images/*
+              service:
+                name: spme-assets
+                port:
+                  number: 3003
+          - path: /images/
+            pathType: Prefix
             backend:
-              serviceName: spme-assets
-              servicePort: 3003
-          - path: /actuator/*
+              service:
+                name: spme-assets
+                port:
+                  number: 3003
+          - path: /actuator/
+            pathType: Prefix
             backend:
-              serviceName: spme-assets
-              servicePort: 3003
+              service:
+                name: spme-assets
+                port:
+                  number: 3003
+
