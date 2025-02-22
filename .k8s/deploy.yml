@@ -26,10 +26,10 @@ spec:
             - containerPort: 3000
           resources:
             requests:
-              memory: "768Mi"
+              memory: "256Mi"
               cpu: "500m"
             limits:
-              memory: "1024Mi"
+              memory: "512Mi"
               cpu: "1000m"
           readinessProbe:
             httpGet:
@@ -68,10 +68,10 @@ spec:
             - containerPort: 3001
           resources:
             requests:
-              memory: "768Mi"
+              memory: "256Mi"
               cpu: "500m"
             limits:
-              memory: "1024Mi"
+              memory: "512Mi"
               cpu: "1000m"
           readinessProbe:
             httpGet:
@@ -110,10 +110,10 @@ spec:
             - containerPort: 3002
           resources:
             requests:
-              memory: "768Mi"
+              memory: "256Mi"
               cpu: "500m"
             limits:
-              memory: "1024Mi"
+              memory: "512Mi"
               cpu: "1000m"
           readinessProbe:
             httpGet:
@@ -150,7 +150,7 @@ spec:
               memory: "512Mi"
               cpu: "250m"
             limits:
-              memory: "1024Mi"
+              memory: "512Mi"
               cpu: "500m"
           readinessProbe:
             httpGet:
@@ -190,7 +190,7 @@ spec:
               memory: "512Mi"
               cpu: "250m"
             limits:
-              memory: "1024Mi"
+              memory: "512Mi"
               cpu: "500m"
           readinessProbe:
             httpGet:
@@ -230,7 +230,7 @@ spec:
               memory: "512Mi"
               cpu: "250m"
             limits:
-              memory: "1024Mi"
+              memory: "512Mi"
               cpu: "500m"
           readinessProbe:
             httpGet:
@@ -269,10 +269,10 @@ spec:
             - containerPort: 3006
           resources:
             requests:
-              memory: "768Mi"
+              memory: "256Mi"
               cpu: "500m"
             limits:
-              memory: "1024Mi"
+              memory: "512Mi"
               cpu: "1000m"
           readinessProbe:
             httpGet:
