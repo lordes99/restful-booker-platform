@@ -2,20 +2,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spme-booking
+  name: rbp-booking
 spec:
   selector:
     matchLabels:
-      run: spme-booking
+      run: rbp-booking
   replicas: 1
   template:
     metadata:
       labels:
-        run: spme-booking
+        run: rbp-booking
     spec:
       containers:
-        - name: spme-booking
-          image: rafdanna28/spme-booking@sha256:<HASH>
+        - name: rbp-booking
+          image: rafdanna28/spme-booking:commit-sha
           imagePullPolicy: Always
           env:
             - name: dbRefresh
@@ -44,20 +44,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spme-room
+  name: rbp-room
 spec:
   selector:
     matchLabels:
-      run: spme-room
+      run: rbp-room
   replicas: 1
   template:
     metadata:
       labels:
-        run: spme-room
+        run: rbp-room
     spec:
       containers:
-        - name: spme-room
-          image: rafdanna28/spme-room@sha256:<HASH>
+        - name: rbp-room
+          image: rafdanna28/spme-room:commit-sha
           imagePullPolicy: Always
           env:
             - name: dbRefresh
@@ -86,20 +86,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spme-branding
+  name: rbp-branding
 spec:
   selector:
     matchLabels:
-      run: spme-branding
+      run: rbp-branding
   replicas: 1
   template:
     metadata:
       labels:
-        run: spme-branding
+        run: rbp-branding
     spec:
       containers:
-        - name: spme-branding
-          image: rafdanna28/spme-branding@sha256:<HASH>
+        - name: rbp-branding
+          image: rafdanna28/spme-branding:commit-sha
           imagePullPolicy: Always
           env:
             - name: dbRefresh
@@ -128,20 +128,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spme-assets
+  name: rbp-assets
 spec:
   selector:
     matchLabels:
-      run: spme-assets
+      run: rbp-assets
   replicas: 1
   template:
     metadata:
       labels:
-        run: spme-assets
+        run: rbp-assets
     spec:
       containers:
-        - name: spme-assets
-          image: rafdanna28/spme-assets@sha256:<HASH>
+        - name: rbp-assets
+          image: rafdanna28/spme-assets:commit-sha
           imagePullPolicy: Always
           ports:
             - containerPort: 3003
@@ -165,20 +165,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spme-auth
+  name: rbp-auth
 spec:
   selector:
     matchLabels:
-      run: spme-auth
+      run: rbp-auth
   replicas: 1
   template:
     metadata:
       labels:
-        run: spme-auth
+        run: rbp-auth
     spec:
       containers:
-        - name: spme-auth
-          image: rafdanna28/spme-auth@sha256:<HASH>
+        - name: rbp-auth
+          image: rafdanna28/spme-auth:commit-sha
           imagePullPolicy: Always
           env:
             - name: cors
@@ -205,20 +205,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spme-report
+  name: rbp-report
 spec:
   selector:
     matchLabels:
-      run: spme-report
+      run: rbp-report
   replicas: 1
   template:
     metadata:
       labels:
-        run: spme-report
+        run: rbp-report
     spec:
       containers:
-        - name: spme-report
-          image: rafdanna28/spme-report@sha256:<HASH>
+        - name: rbp-report
+          image: rafdanna28/spme-report:commit-sha
           imagePullPolicy: Always
           env:
             - name: cors
@@ -245,20 +245,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spme-message
+  name: rbp-message
 spec:
   selector:
     matchLabels:
-      run: spme-message
+      run: rbp-message
   replicas: 1
   template:
     metadata:
       labels:
-        run: spme-message
+        run: rbp-message
     spec:
       containers:
-        - name: spme-message
-          image: rafdanna28/spme-message@sha256:<HASH>
+        - name: rbp-message
+          image: rafdanna28/spme-message:commit-sha
           imagePullPolicy: Always
           env:
             - name: dbRefresh
@@ -287,9 +287,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: spme-booking
+  name: rbp-booking
   labels:
-    app: spme-booking
+    app: rbp-booking
 spec:
   type: NodePort
   ports:
@@ -298,14 +298,14 @@ spec:
       nodePort: 32147
       targetPort: 3000
   selector:
-    run: spme-booking
+    run: rbp-booking
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: spme-room
+  name: rbp-room
   labels:
-    app: spme-room
+    app: rbp-room
 spec:
   type: NodePort
   ports:
@@ -314,14 +314,14 @@ spec:
       nodePort: 32148
       targetPort: 3001
   selector:
-    run: spme-room
+    run: rbp-room
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: spme-branding
+  name: rbp-branding
   labels:
-    app: spme-branding
+    app: rbp-branding
 spec:
   type: NodePort
   ports:
@@ -330,14 +330,14 @@ spec:
       nodePort: 32149
       targetPort: 3002
   selector:
-    run: spme-branding
+    run: rbp-branding
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: spme-assets
+  name: rbp-assets
   labels:
-    app: spme-assets
+    app: rbp-assets
 spec:
   type: NodePort
   ports:
@@ -346,14 +346,14 @@ spec:
       nodePort: 32150
       targetPort: 3003
   selector:
-    run: spme-assets
+    run: rbp-assets
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: spme-auth
+  name: rbp-auth
   labels:
-    app: spme-auth
+    app: rbp-auth
 spec:
   type: NodePort
   ports:
@@ -362,14 +362,14 @@ spec:
       nodePort: 32151
       targetPort: 3004
   selector:
-    run: spme-auth
+    run: rbp-auth
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: spme-report
+  name: rbp-report
   labels:
-    app: spme-report
+    app: rbp-report
 spec:
   type: NodePort
   ports:
@@ -378,14 +378,14 @@ spec:
       nodePort: 32152
       targetPort: 3005
   selector:
-    run: spme-report
+    run: rbp-report
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: spme-message
+  name: rbp-message
   labels:
-    app: spme-message
+    app: rbp-message
 spec:
   type: NodePort
   ports:
@@ -394,7 +394,7 @@ spec:
       nodePort: 32153
       targetPort: 3006
   selector:
-    run: spme-message
+    run: rbp-message
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -403,77 +403,77 @@ metadata:
   namespace: spme
 spec:
   rules:
-    - host: 192.168.0.161
+    - host: spme.local
       http:
         paths:
           - path: /booking/
             pathType: Prefix
             backend:
               service:
-                name: spme-booking
+                name: rbp-booking
                 port:
                   number: 3000
           - path: /room/
             pathType: Prefix
             backend:
               service:
-                name: spme-room
+                name: rbp-room
                 port:
                   number: 3001
           - path: /branding/
             pathType: Prefix
             backend:
               service:
-                name: spme-branding
+                name: rbp-branding
                 port:
                   number: 3002
           - path: /auth/
             pathType: Prefix
             backend:
               service:
-                name: spme-auth
+                name: rbp-auth
                 port:
                   number: 3004
           - path: /report/
             pathType: Prefix
             backend:
               service:
-                name: spme-report
+                name: rbp-report
                 port:
                   number: 3005
           - path: /message/
             pathType: Prefix
             backend:
               service:
-                name: spme-message
+                name: rbp-message
                 port:
                   number: 3006
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: spme-assets
+                name: rbp-assets
                 port:
                   number: 3003
           - path: /js/
             pathType: Prefix
             backend:
               service:
-                name: spme-assets
+                name: rbp-assets
                 port:
                   number: 3003
           - path: /images/
             pathType: Prefix
             backend:
               service:
-                name: spme-assets
+                name: rbp-assets
                 port:
                   number: 3003
           - path: /actuator/
             pathType: Prefix
             backend:
               service:
-                name: spme-assets
+                name: rbp-assets
                 port:
                   number: 3003
 
