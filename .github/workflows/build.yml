@@ -38,9 +38,9 @@ jobs:
         run: |
           if [ "${{ matrix.service }}" == "assets" ]; then
             cd ${{ matrix.service }}/api
-            mvn install  # Evitiamo "clean install" per non rimuovere gli assets
+            mvn install -DskipTests # Evitiamo "clean install" per non rimuovere gli assets
           else
-            mvn clean install -Dmaven.test.skip=true
+            mvn clean install -DskipTests
           fi
 
       - name: Login su Docker Hub
@@ -60,13 +60,13 @@ jobs:
 
       - name: Modifica il file di deploy con i nuovi tag immagine
         run: |
-          sed -i 's|\(rafdanna28/spme-booking:\)[^ ]*|\1${{ github.sha }}|g' deploy.yml
-          sed -i 's|\(rafdanna28/spme-room:\)[^ ]*|\1${{ github.sha }}|g' deploy.yml
-          sed -i 's|\(rafdanna28/spme-branding:\)[^ ]*|\1${{ github.sha }}|g' deploy.yml
-          sed -i 's|\(rafdanna28/spme-assets:\)[^ ]*|\1${{ github.sha }}|g' deploy.yml
-          sed -i 's|\(rafdanna28/spme-auth:\)[^ ]*|\1${{ github.sha }}|g' deploy.yml
-          sed -i 's|\(rafdanna28/spme-report:\)[^ ]*|\1${{ github.sha }}|g' deploy.yml
-          sed -i 's|\(rafdanna28/spme-message:\)[^ ]*|\1${{ github.sha }}|g' deploy.yml
+          sed -i 's|\(rafdanna28/spme-booking:\)[^ ]*|\1${{ github.sha }}|g' .k8s/deploy.yml
+          sed -i 's|\(rafdanna28/spme-room:\)[^ ]*|\1${{ github.sha }}|g' .k8s/deploy.yml
+          sed -i 's|\(rafdanna28/spme-branding:\)[^ ]*|\1${{ github.sha }}|g' .k8s/deploy.yml
+          sed -i 's|\(rafdanna28/spme-assets:\)[^ ]*|\1${{ github.sha }}|g' .k8s/deploy.yml
+          sed -i 's|\(rafdanna28/spme-auth:\)[^ ]*|\1${{ github.sha }}|g' .k8s/deploy.yml
+          sed -i 's|\(rafdanna28/spme-report:\)[^ ]*|\1${{ github.sha }}|g' .k8s/deploy.yml
+          sed -i 's|\(rafdanna28/spme-message:\)[^ ]*|\1${{ github.sha }}|g' .k8s/deploy.yml
 
       - name: Configura kubectl
         run: |
@@ -74,4 +74,4 @@ jobs:
           export KUBECONFIG=kubeconfig
 
       - name: Applica il deployment su Kubernetes
-        run: kubectl apply -f deploy.yml --namespace=spme
+        run: kubectl apply -f ./k8s/deploy.yml --namespace=spme
