@@ -74,5 +74,4 @@ jobs:
           export KUBECONFIG=kubeconfig
 
       - name: Applica il deployment su Kubernetes
-        run: kubectl apply -f deploy.yml
-
+        run: kubectl apply -f deploy.yml --namespace=spme
