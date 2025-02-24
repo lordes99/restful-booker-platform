@@ -51,24 +51,28 @@ jobs:
 
       - name: Push su Docker Hub
         run: docker push rafdanna28/spme-${{ matrix.service }}:${{ github.sha }}
-  deploy:
+  update-and-deploy:
     runs-on: self-hosted
-    needs: build-and-push  # Esegue il deploy solo dopo il build
+    needs: build-and-push
     steps:
-      - name: Connetti via SSH e aggiorna Kubernetes
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            echo "📢 Aggiornamento di Kubernetes su MicroK8s..."
+      - name: Checkout del codice
+        uses: actions/checkout@v4
 
-            # Effettua il pull delle nuove immagini su MicroK8s
-            for service in auth booking report room branding message assets; do
-              echo "🔄 Aggiorno $service..."
-              microk8s.kubectl set image deployment/spme-$service spme-$service=rafdanna28/spme-$service:${{ github.sha }} --record
-            done
+      - name: Modifica il file di deploy con i nuovi tag immagine
+        run: |
+          sed -i 's|\(rafdanna28/spme-booking:\)[^ ]*|\1${{ github.sha }}|g' deploy.yml
+          sed -i 's|\(rafdanna28/spme-room:\)[^ ]*|\1${{ github.sha }}|g' deploy.yml
+          sed -i 's|\(rafdanna28/spme-branding:\)[^ ]*|\1${{ github.sha }}|g' deploy.yml
+          sed -i 's|\(rafdanna28/spme-assets:\)[^ ]*|\1${{ github.sha }}|g' deploy.yml
+          sed -i 's|\(rafdanna28/spme-auth:\)[^ ]*|\1${{ github.sha }}|g' deploy.yml
+          sed -i 's|\(rafdanna28/spme-report:\)[^ ]*|\1${{ github.sha }}|g' deploy.yml
+          sed -i 's|\(rafdanna28/spme-message:\)[^ ]*|\1${{ github.sha }}|g' deploy.yml
 
-            # Mostra lo stato dei pod per verifica
-            microk8s.kubectl get pods -o wide
+      - name: Configura kubectl
+        run: |
+          echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig
+          export KUBECONFIG=kubeconfig
+
+      - name: Applica il deployment su Kubernetes
+        run: kubectl apply -f deploy.yml
+
