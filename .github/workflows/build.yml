@@ -6,6 +6,29 @@ on:
     branches:
       - main
 jobs:
+  sonarqube-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Run SonarQube Analysis
+        run: |
+          mvn clean compile
+          mvn sonar:sonar \
+            -Dsonar.projectKey=lordes99_restful-booker-platform \
+            -Dsonar.organization=lordes99 \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }} \
+            -Dsonar.branch.name=main \
+            -Dsonar.java.binaries=target/classes \
+            -X  # Abilita i log di debug
   build-and-push:
     runs-on:  self-hosted
     strategy:
