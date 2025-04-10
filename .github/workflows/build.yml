@@ -30,7 +30,7 @@ jobs:
             -Dsonar.java.binaries=target/classes \
             -X  # Abilita i log di debug
   build-and-push:
-    runs-on:  self-hosted
+    runs-on: self-hosted
     strategy:
       matrix:
         service: [auth, booking, report, room, branding, message, assets]  # Elenco dei servizi
