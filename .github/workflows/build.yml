@@ -2,9 +2,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 jobs:
   sonarqube-analysis:
     runs-on: ubuntu-latest
@@ -84,17 +81,19 @@ jobs:
       - name: Imposta il percorso del file di deploy
         run: |
           echo "DEPLOY_PATH=/home/lord-spme/kube-yaml/deploy.yml" >> $GITHUB_ENV
-#            echo "SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
+
+      - name: Ottieni lo short SHA
+        run: echo "SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
 
       - name: Modifica il file di deploy con i nuovi tag immagine
         run: |
-          sed -i 's|\(rafdanna28/spme-booking:\)[^ ]*|\1${{ github.sha }}|g' $DEPLOY_PATH
-          sed -i 's|\(rafdanna28/spme-room:\)[^ ]*|\1${{ github.sha }}|g' $DEPLOY_PATH
-          sed -i 's|\(rafdanna28/spme-branding:\)[^ ]*|\1${{ github.sha }}|g' $DEPLOY_PATH
-          sed -i 's|\(rafdanna28/spme-assets:\)[^ ]*|\1${{ github.sha }}|g' $DEPLOY_PATH
-          sed -i 's|\(rafdanna28/spme-auth:\)[^ ]*|\1${{ github.sha }}|g' $DEPLOY_PATH
-          sed -i 's|\(rafdanna28/spme-report:\)[^ ]*|\1${{ github.sha }}|g' $DEPLOY_PATH
-          sed -i 's|\(rafdanna28/spme-message:\)[^ ]*|\1${{ github.sha }}|g' $DEPLOY_PATH
+          sed -i 's|\(rafdanna28/spme-booking:\)[^ ]*|\1$SHORT_SHA|g' $DEPLOY_PATH
+          sed -i 's|\(rafdanna28/spme-room:\)[^ ]*|\1$SHORT_SHA|g' $DEPLOY_PATH
+          sed -i 's|\(rafdanna28/spme-branding:\)[^ ]*|\1$SHORT_SHA|g' $DEPLOY_PATH
+          sed -i 's|\(rafdanna28/spme-assets:\)[^ ]*|\1$SHORT_SHA|g' $DEPLOY_PATH
+          sed -i 's|\(rafdanna28/spme-auth:\)[^ ]*|\1$SHORT_SHA|g' $DEPLOY_PATH
+          sed -i 's|\(rafdanna28/spme-report:\)[^ ]*|\1$SHORT_SHA|g' $DEPLOY_PATH
+          sed -i 's|\(rafdanna28/spme-message:\)[^ ]*|\1$SHORT_SHA|g' $DEPLOY_PATH
 
       - name: Configura kubectl
         run: |
